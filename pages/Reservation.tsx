@@ -25,6 +25,14 @@ const Reservation: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+
+    // basic client-side validation for Indian 10-digit phone numbers
+    const phoneRegex = /^\d{10}$/;
+    if (!phoneRegex.test(formData.phone)) {
+      alert('Please enter a valid 10-digit Indian phone number.');
+      setIsSubmitting(false);
+      return;
+    }
     
     const newReservation: ReservationType = {
       id: Date.now().toString(),
@@ -120,7 +128,17 @@ const Reservation: React.FC = () => {
                 </div>
                 <div className="space-y-2">
                   <label className="block text-sm font-bold text-gray-700 ml-1">Phone Number</label>
-                  <input required type="tel" name="phone" className="w-full px-5 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition-all" placeholder="+91..." onChange={handleChange} disabled={isSubmitting} />
+                  <input
+                    required
+                    type="tel"
+                    name="phone"
+                    pattern="\d{10}"
+                    maxLength={10}
+                    className="w-full px-5 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition-all"
+                    placeholder="10 digit mobile number"
+                    onChange={handleChange}
+                    disabled={isSubmitting}
+                  />
                 </div>
               </div>
               <div className="space-y-2">
